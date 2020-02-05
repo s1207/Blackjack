@@ -149,6 +149,21 @@ def push(player, dealer):
         return False
 
 
+while True:
+
+    print('Welcome to BlackJack!!!')
+    deck = Deck()
+    deck.shuffle()
+
+    player = Hand()
+    dealer = Hand()
+
+    player.add_card(deck.deal())
+    player.add_card(deck.deal())
+
+    dealer.add_card(deck.deal())
+    dealer.add_card(deck.deal())
+
 
 
 
