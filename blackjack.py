@@ -76,18 +76,18 @@ def take_bet():
             break
 
 
-def hit(deck, hand):
-    c = (deck.deck.deal())
+def hit(total_deck, hand):
+    c = (total_deck.deck.deal())
     hand.cards.append(c)
     if c.rank == 'Ace':
         hand.adjust_for_ace()
 
 
-def hit_stand(deck, hand):
+def hit_stand(total_deck, hand):
     global playing
     player_input = input("DO you want to hit or pass? Enter H or P :")
     if player_input == "H":
-        hit(deck, hand)
+        hit(total_deck, hand)
     else:
         playing = False
 
@@ -96,7 +96,7 @@ def show_more(player, dealer):
     for card in player.cards:
         print(card.rank + "of" + card.suit)
     for card in dealer.cards:
-        index =0
+        index = 0
         if index == 0:
             continue
         else:
@@ -163,6 +163,29 @@ while True:
 
     dealer.add_card(deck.deal())
     dealer.add_card(deck.deal())
+
+    player_chips = Chips()
+    player_bet = input('Enter the amount you want to bet: ')
+    player_chips.bet = player_bet
+
+    show_more(player, dealer)
+
+    while playing:
+        hit_stand(deck, player)
+        show_more(player, dealer)
+        if player.value > 21:
+            player_busts(player, player_chips)
+            break
+
+    while dealer.value <= 17:
+        hit(deck, dealer)
+        show_all(player, dealer)
+
+    if not dealer_busts(dealer, player_chips):
+        player_win = True
+
+
+
 
 
 
